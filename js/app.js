@@ -49,37 +49,12 @@ const displaySearchResult = phonesData =>{
                 warningMessage.appendChild(div)
     }else{
         const phones = phonesData.data
-        phones.slice(0,20).forEach (phone =>{
-            const div = document.createElement('div');
-            div.classList.add ('bg-orange-200');
-            div.classList.add ('m-8');
-            div.classList.add ('p-4');
-            div.classList.add ('rounded');
-            div.classList.add ('shadow-xl');
-            div.classList.add ('hover:shadow-2xl');
-            div.classList.add ('shadow-slate-800');
-            div.classList.add ('hover:shadow-neutral-800');
-            div.classList.add ('hover:opacity-90');
-            const p = document.createElement('p');
-            p.innerHTML = `
-            <div class="bg-slate-200 rounded p-4">
-                <div class="bg-white rounded p-4">
-                    <div class="flex">
-                    <img class=" px-2" src="${phone.image}">
-                    </div><br>
-                    <span class="font-semibold text-blue-700">Phone Name:</span> ${phone.phone_name} <br>
-                    <span class="font-semibold text-blue-700">Brand :</span> ${phone.brand}<br>
-                    <button onclick="showPhoneDetails('${phone.slug}')" class="bg-rose-300 hover:bg-rose-600 px-2 h-8 mt-4 rounded px-2 hover:text-white font-semibold">Phone Details</button>
-                </div>
-            </div>
-            `;
-            div.appendChild(p)
-            phoneContainer.appendChild(div)
-        })
+        loadData(phones , 0 , 20)
     }
+    
     spinnerLoad ('none');
 }
-// *API id collection & data process
+// 8API id collection & data process
 const showPhoneDetails = phoneSlug =>{
     const url =`https://openapi.programming-hero.com/api/phone/${phoneSlug}`
     fetch(url)
@@ -150,4 +125,57 @@ const spinnerLoad = (param) =>{
         </p>
     `
     spinnerShow.style.display = param
+}
+
+
+const loadData = (phones, firstNumber, lastNumber) => {
+    console.log("a");
+        phones.slice(firstNumber,lastNumber).forEach (phone =>{
+            const div = document.createElement('div');
+            div.classList.add ('bg-orange-200');
+            div.classList.add ('m-8');
+            div.classList.add ('p-4');
+            div.classList.add ('rounded');
+            div.classList.add ('shadow-xl');
+            div.classList.add ('hover:shadow-2xl');
+            div.classList.add ('shadow-slate-800');
+            div.classList.add ('hover:shadow-neutral-800');
+            div.classList.add ('hover:opacity-90');
+            const p = document.createElement('p');
+            p.innerHTML = `
+            <div class="bg-slate-200 rounded p-4">
+                <div class="bg-white rounded p-4">
+                    <div class="flex">
+                    <img class=" px-2" src="${phone.image}">
+                    </div><br>
+                    <span class="font-semibold text-blue-700">Phone Name:</span> ${phone.phone_name} <br>
+                    <span class="font-semibold text-blue-700">Brand :</span> ${phone.brand}<br>
+                    <button  class="bg-rose-300 hover:bg-rose-600 px-2 h-8 mt-4 rounded px-2 hover:text-white font-semibold">Phone Details</button>
+                </div>
+            </div>
+            `;
+            div.appendChild(p)
+            phoneContainer.appendChild(div)
+        })
+        const p = document.createElement('p')
+        p.classList.add ('bg-orange-200');
+        p.classList.add ('m-8');
+        p.classList.add ('p-2');
+        p.classList.add ('rounded');
+        p.classList.add ('shadow-xl');
+        p.classList.add ('hover:shadow-2xl');
+        p.classList.add ('shadow-slate-800');
+        p.classList.add ('hover:shadow-neutral-800');
+        p.classList.add ('hover:opacity-90');
+        p.classList.add ('flex');
+        p.classList.add ('justify-center');
+        p.classList.add ('items-center');
+
+            p.innerHTML = `
+            <div class= "bg-slate-200 h-5/6 w-5/6 rounded p-4">
+                <div style="height: 90%" class = "bg-white rounded flex items-center justify-center p-4">
+                    <button onclick="loadData(phonesData.phones , 21 , 39)" class="font-semibold text-blue-700">Load More</button>
+                </div>
+            </div>`
+            phoneContainer.appendChild(p)
 }
