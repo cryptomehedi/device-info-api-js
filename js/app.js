@@ -25,12 +25,23 @@ const searchPhone = () =>{
                 warningMessage.appendChild(div)
                 spinnerLoad ('none');
     }else{
-        const url = `https://openapi.programming-hero.com/api/phones?search=${searchField.value}`
-        emptyValue();
-        fetch(url)
-        .then(res => res.json())
-        .then(data => displaySearchResult(data))
+        fetchData(searchField.value, true)
     }
+}
+
+const fetchData = (searchText, isSlice) =>{
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
+    emptyValue();
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        if(isSlice){
+            console.log(data);
+            displaySearchResult(data.data.slice(0,20))
+        }else{
+            displaySearchResult(data.data)
+        }
+    })
 }
 // *API search validation 
 const displaySearchResult = phonesData =>{
@@ -48,8 +59,8 @@ const displaySearchResult = phonesData =>{
                 div.appendChild(p)
                 warningMessage.appendChild(div)
     }else{
-        const phones = phonesData.data
-        loadData(phones , 0 , 20)
+        // const phones = phonesData.data
+        loadData(phonesData)
     }
     
     spinnerLoad ('none');
@@ -128,11 +139,12 @@ const spinnerLoad = (param) =>{
 }
 
 
-const loadData = (phones, firstNumber, lastNumber) => {
-    console.log("a");
-        phones.slice(firstNumber,lastNumber).forEach (phone =>{
+const loadData = (phones) => {
+    console.log(phones);
+        phones.forEach (phone =>{
+        
             const div = document.createElement('div');
-            div.classList.add ('bg-orange-200');
+            div.classList.add ('bg-orange-200');[bg-orange-200, ]
             div.classList.add ('m-8');
             div.classList.add ('p-4');
             div.classList.add ('rounded');
@@ -174,7 +186,7 @@ const loadData = (phones, firstNumber, lastNumber) => {
             p.innerHTML = `
             <div class= "bg-slate-200 h-5/6 w-5/6 rounded p-4">
                 <div style="height: 90%" class = "bg-white rounded flex items-center justify-center p-4">
-                    <button onclick="loadData(phonesData.phones , 21 , 39)" class="font-semibold text-blue-700">Load More</button>
+                    <button onclick="fetchData('i', false)" class="font-semibold text-blue-700">Load More</button>
                 </div>
             </div>`
             phoneContainer.appendChild(p)
