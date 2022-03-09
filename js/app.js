@@ -41,6 +41,7 @@ const fetchData = (searchText, isSlice , lastNum =20) =>{
             displaySearchResult(data.data.slice(0 , 20))
         }else{
             displaySearchResult(data.data)
+            loadBtn()
         }
     })
 }
@@ -164,7 +165,7 @@ const loadData = (phones) => {
             phoneContainer.appendChild(div)
         })
         const p = document.createElement('p')
-        p.classList.add ('bg-orange-200','m-8','p-2','rounded','shadow-xl','hover:shadow-2xl','shadow-slate-800','hover:shadow-neutral-800','hover:opacity-90','flex','justify-center','items-center');
+        p.classList.add ('loadData','bg-orange-200','m-8','p-2','rounded','shadow-xl','hover:shadow-2xl','shadow-slate-800','hover:shadow-neutral-800','hover:opacity-90','flex','justify-center','items-center');
             p.innerHTML = `
             <div class= "bg-slate-200 h-5/6 w-5/6 rounded p-4">
                 <div style="height: 90%" class = "bg-white rounded flex items-center justify-center p-4">
@@ -172,4 +173,9 @@ const loadData = (phones) => {
                 </div>
             </div>`
             phoneContainer.appendChild(p)
+}
+
+
+const loadBtn = () =>{
+    document.querySelector('.loadData').classList.add('hidden')
 }
