@@ -5,7 +5,7 @@ const phoneDetails = document.querySelector('#phone-details');
 const phoneContainer = document.querySelector('.phone-container');
 const warningMessage = document.querySelector('.warning-message');
 const spinnerShow = document.querySelector('#spinner-show');
-
+let val_input ;
 // *search validation & api data collect
 const searchPhone = () =>{
     spinnerLoad ('block');
@@ -25,19 +25,20 @@ const searchPhone = () =>{
                 warningMessage.appendChild(div)
                 spinnerLoad ('none');
     }else{
-        fetchData(searchField.value, true)
+        val_input = searchField.value
+        fetchData(val_input, true)
     }
 }
 
-const fetchData = (searchText, isSlice) =>{
+const fetchData = (searchText, isSlice , lastNum =20) =>{
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     emptyValue();
     fetch(url)
     .then(res => res.json())
     .then(data => {
         if(isSlice){
-            console.log(data);
-            displaySearchResult(data.data.slice(0,20))
+            // console.log(data);
+            displaySearchResult(data.data.slice(0 , 20))
         }else{
             displaySearchResult(data.data)
         }
@@ -67,6 +68,7 @@ const displaySearchResult = phonesData =>{
 }
 // 8API id collection & data process
 const showPhoneDetails = phoneSlug =>{
+    console.log(phoneSlug);
     const url =`https://openapi.programming-hero.com/api/phone/${phoneSlug}`
     fetch(url)
     .then(res => res.json())
@@ -140,19 +142,11 @@ const spinnerLoad = (param) =>{
 
 
 const loadData = (phones) => {
-    console.log(phones);
+    // console.log(phones);
         phones.forEach (phone =>{
-        
+        // console.log(phone.slug);
             const div = document.createElement('div');
-            div.classList.add ('bg-orange-200');[bg-orange-200, ]
-            div.classList.add ('m-8');
-            div.classList.add ('p-4');
-            div.classList.add ('rounded');
-            div.classList.add ('shadow-xl');
-            div.classList.add ('hover:shadow-2xl');
-            div.classList.add ('shadow-slate-800');
-            div.classList.add ('hover:shadow-neutral-800');
-            div.classList.add ('hover:opacity-90');
+            div.classList.add ('bg-orange-200','m-8','p-2','rounded','shadow-xl','hover:shadow-2xl','shadow-slate-800','hover:shadow-neutral-800','hover:opacity-90');
             const p = document.createElement('p');
             p.innerHTML = `
             <div class="bg-slate-200 rounded p-4">
@@ -162,7 +156,7 @@ const loadData = (phones) => {
                     </div><br>
                     <span class="font-semibold text-blue-700">Phone Name:</span> ${phone.phone_name} <br>
                     <span class="font-semibold text-blue-700">Brand :</span> ${phone.brand}<br>
-                    <button  class="bg-rose-300 hover:bg-rose-600 px-2 h-8 mt-4 rounded px-2 hover:text-white font-semibold">Phone Details</button>
+                    <button onclick="showPhoneDetails('${phone.slug}')" class="bg-rose-300 hover:bg-rose-600 px-2 h-8 mt-4 rounded px-2 hover:text-white font-semibold">Phone Details</button>
                 </div>
             </div>
             `;
@@ -170,23 +164,11 @@ const loadData = (phones) => {
             phoneContainer.appendChild(div)
         })
         const p = document.createElement('p')
-        p.classList.add ('bg-orange-200');
-        p.classList.add ('m-8');
-        p.classList.add ('p-2');
-        p.classList.add ('rounded');
-        p.classList.add ('shadow-xl');
-        p.classList.add ('hover:shadow-2xl');
-        p.classList.add ('shadow-slate-800');
-        p.classList.add ('hover:shadow-neutral-800');
-        p.classList.add ('hover:opacity-90');
-        p.classList.add ('flex');
-        p.classList.add ('justify-center');
-        p.classList.add ('items-center');
-
+        p.classList.add ('bg-orange-200','m-8','p-2','rounded','shadow-xl','hover:shadow-2xl','shadow-slate-800','hover:shadow-neutral-800','hover:opacity-90','flex','justify-center','items-center');
             p.innerHTML = `
             <div class= "bg-slate-200 h-5/6 w-5/6 rounded p-4">
                 <div style="height: 90%" class = "bg-white rounded flex items-center justify-center p-4">
-                    <button onclick="fetchData('i', false)" class="font-semibold text-blue-700">Load More</button>
+                    <button onclick="fetchData(val_input, false )" class="font-semibold text-blue-700">See All</button>
                 </div>
             </div>`
             phoneContainer.appendChild(p)
